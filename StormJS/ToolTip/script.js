@@ -20,36 +20,16 @@ var stormToolTip = {
   },
   
   addActivators: function() {
-    var elements = document.getElementsByTagName("*");
     var element;
-    var elementAttributes;
-    var elementAttributeName;
-    var elementAttributeValue;
-    
+    var elements = StormJS.getElementsByAttribute("*", this.options.dataTag);
     for (var i = 0; i < elements.length; i++) {
-      element            = elements[i];
-      elementAttributes  = element.attributes;
-      
-      for (var j = 0; j < elementAttributes.length; j++) {
-        elementAttributeName   = elementAttributes[j].name;
-        elementAttributeValue  = elementAttributes[j].value;
-        
-        if (elementAttributeName == "data-tooltip") {
-          element.addEventListener("mouseover", function(event) {
-            stormToolTip.doToolTip(event);
-          });
-          element.addEventListener("mouseout", function(event) {
-            stormToolTip.removeToolTip(event);
-          });
-          element.addEventListener("mousemove", function(event) {
-            stormToolTip.removeToolTip(event);
-            stormToolTip.doToolTip(event);
-          });
-          
-          element.classList.toggle(this.options.cssClass + this.tooltipIncrement);
-          this.tooltipIncrement += 1;
-        }
-      }
+      element = elements[i];
+      element.addEventListener("mouseover", function(event) { StormJS.ToolTip.doToolTip(event); });
+      element.addEventListener("mouseout", function(event) { StormJS.ToolTip.removeToolTip(event); });
+      element.addEventListener("mousemove", function(event) {
+        StormJS.ToolTip.removeToolTip(event);
+        StormJS.ToolTip.doToolTip(event);
+      });
     }
   },
   
@@ -65,28 +45,34 @@ var stormToolTip = {
   doToolTip: function(event) {
     var toolTipDiv   = document.getElementById(this.options.cssId);
     
-    var hoverElement = event.srcElement;
-    var title        = hoverElement.getAttribute("title");
-    var titleElem    = document.createTextNode(title);
+    var hoverElement;
+    if (event.srcElement) {
+      hoverElement = event.srcElement;
+    } else {
+      hoverElement = event.originalTarget;
+    }
     
-    var left      = ((0 + (title.length + 5) + event.clientX) + "px");
-    var top       = ((0 + 10 + event.clientY) + "px");
-    
-    toolTipDiv.style.setProperty("display", "block");
-    toolTipDiv.style.setProperty("left", left);
-    toolTipDiv.style.setProperty("top", top);
-    toolTipDiv.style.setProperty("position", "absolute");
-    
-    toolTipDiv.appendChild(titleElem);
+    if (hoverElement) {
+      var title        = hoverElement.getAttribute("title");
+      var titleElem    = document.createTextNode(title);
+
+      var left      = ((0 + (title.length + 5) + event.clientX) + "px");
+      var top       = ((0 + 10 + event.clientY) + "px");
+
+      toolTipDiv.style.setProperty("display", "block");
+      toolTipDiv.style.setProperty("left", left);
+      toolTipDiv.style.setProperty("top", top);
+      toolTipDiv.style.setProperty("position", "absolute");
+
+      toolTipDiv.appendChild(titleElem);
+    }
   },
   
   removeToolTip: function(event) {
-    var div = document.getElementById(this.options.cssId);
-    div.style.display = "none";
-    
-    // remove all the child nodes
-    while (div.hasChildNodes()) {
-      div.removeChild(div.lastChild);
-    }
+    StormJS.removeChildren(this.options.cssId);
   }
 };
+
+if (StormJS) {
+  StormJS.ToolTip = stormToolTip;
+}

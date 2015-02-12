@@ -41,53 +41,25 @@ var stormTabs = {
   },
   
   addIdentifiers: function() {
-    var containers = document.getElementsByTagName(this.options.containerElement);
-    
     var container;
-    var containerAttributes;
-    var containerAttributeName;
-    var containerAttributeValue;
-    var containerClassList
+    var containers = StormJS.getElementsByAttribute(this.options.containerElement, this.options.containerDataTag);
     
     for (var i = 0; i < containers.length; i++) {
-      container            = containers[i];
-      
-      containerAttributes  = container.attributes;
-      for (var j = 0; j < containerAttributes.length; j++) {
-        containerAttributeName    = containerAttributes[j].name;
-        containerAttributeValue   = containerAttributes[j].value;
-        
-        if (containerAttributeName == this.options.containerDataTag) {
-          container.classList.add(this.options.containerClass + this.containerIncrement);
-          this.containerIncrement += 1;
-        }
-      }
+      container = containers[i];
+      container.classList.add(this.options.containerClass + this.containerIncrement);
+      this.containerIncrement += 1;
     }
   },
   
   doActivators: function() {
     // activator stuffs
-    var activators   = document.getElementsByTagName(this.options.activatorElement);
-
     var activator;
-    var activatorAttributes;
-    var activatorAttributeName;
-    var activatorAttributeValue;
-
+    var activators = StormJS.getElementsByAttribute(this.options.activatorElement, this.options.activatorDataTag);
     for (var i = 0; i < activators.length; i++) {
-      activator           = activators[i];
-      
-      activatorAttributes = activator.attributes;
-      for (var j = 0; j < activatorAttributes.length; j++) {
-        activatorAttributeName   = activatorAttributes[j].name;
-        activatorAttributeValue  = activatorAttributes[j].value;
-
-        if (activatorAttributeName == this.options.activatorDataTag) {          
-          activator.addEventListener("click", function(event) {
-            stormTabs.doTabs(event.target)
-          });
-        }
-      }
+      activator = activators[i];
+      activator.addEventListener("click", function(event) {
+        stormTabs.doTabs(event.target);
+      });
     }
   },
   
@@ -95,7 +67,7 @@ var stormTabs = {
     var targetContainerClass = target.parentNode.parentNode.classList[0];
     
     //var targetParentClass  = target.
-    var targetAttributes   = target.attributes;
+    var targetAttributes   = StormJS.getElementAttributes(target);
     var activatorValue;
     var parentNode;
     
@@ -105,36 +77,35 @@ var stormTabs = {
       }
     }
     
-    var tabs = document.getElementsByTagName(this.options.tabElement);
-    var tab;
+    var tabContainerClass;
+    var parent
     var tabAttributes;
-    var tabAttributeName;
-    var tabAttributeValue;
-    var tabParentClass;
-    
+    var tab;
+    var tabs = StormJS.getElementsByAttribute(this.options.tabElement, this.options.tabDataTag);
     for (var j = 0; j < tabs.length; j++) {
-      tab            = tabs[j];
-      tabAttributes  = tab.attributes;
+      tab = tabs[j];
       
+      // Hide the other tabs
+      if (this.options.closeOtherTabs) {
+        tab.classList.remove(this.options.tabShowClass);
+        tab.classList.add(this.options.tabClassHide);
+      }
+      
+      tabAttributes = StormJS.getElementAttributes(tab);
       for (var k = 0; k < tabAttributes.length; k++) {
-        tabAttributeName   = tabAttributes[k].name;
-        tabAttributeValue  = tabAttributes[k].value;
-        
-        if (tabAttributeName == this.options.tabDataTag) {
-          if (this.options.closeOtherTabs) {
-            tab.classList.remove(this.options.tabShowClass);
-            tab.classList.add(this.options.tabHideClass);
-          }
+        if (tabAttributes[k].value == activatorValue) {
+          tabContainerClass = tab.parentNode.classList[0];
           
-          if (tabAttributeValue == activatorValue) {            
-            tabParentClass = tab.parentNode.classList[0];            
-            if (tabParentClass == targetContainerClass) {
-              tab.classList.toggle(this.options.tabHideClass);
-              tab.classList.toggle(this.options.tabShowClass);
-            }
+          if (tabContainerClass == targetContainerClass) {
+            tab.classList.toggle(this.options.tabHideClass);
+            tab.classList.toggle(this.options.tabShowClass);
           }
         }
       }
     }
   }
 };
+
+if (StormJS) {
+  StormJS.Tabs = stormTabs;
+}

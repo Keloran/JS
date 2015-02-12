@@ -11,14 +11,16 @@
     <link rel="stylesheet" href="StormJS/Predict/style.css" />
     <script type="text/javascript" src="StormJS/Predict/script.js"></script>
     
+    <script type="text/javascript" src="StormJS/Net/script.js"></script>
+    
     <script>
       window.onload = function() {
-        stormTabs.activate({
+        StormJS.Tabs.activate({
           tabHideClass: "tabs-hide",
           tabShowClass: "tabs-show"
         });
-        stormToolTip.activate();
-        stormPredict.activate({
+        StormJS.ToolTip.activate();
+        StormJS.Predict.activate({
           searchURL: "/test.php"
         });
       }      
