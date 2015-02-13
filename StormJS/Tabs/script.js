@@ -10,9 +10,9 @@ var stormTabs = {
     tabShowClass: "tabsShow",
     containerClass: "tabContainer",
     
-    containerDataTag: "data-tabs-container",
-    activatorDataTag: "data-tabs-activator",
-    tabDataTag: "data-tabs-tab",
+    tabsContainerTag: "data-tabs-container",
+    tabsActivatorTag: "data-tabs-activator",
+    tabsTabTag: "data-tabs-tab",
     
     closeOtherTabs: false,
   },
@@ -30,9 +30,9 @@ var stormTabs = {
     if (!this.options.tabShowClass) { this.options.tabShowClass = this.defaultOptions.tabShowClass; }
     if (!this.options.containerClass) { this.options.containerClass = this.defaultOptions.containerClass; }
     
-    if (!this.options.containerDataTag) { this.options.containerDataTag = this.defaultOptions.containerDataTag; }
-    if (!this.options.activatorDataTag) { this.options.activatorDataTag = this.defaultOptions.activatorDataTag; }
-    if (!this.options.tabDataTag) { this.options.tabDataTag = this.defaultOptions.tabDataTag; }
+    if (!this.options.tabsContainerTag) { this.options.tabsContainerTag = this.defaultOptions.tabsContainerTag; }
+    if (!this.options.tabsActivatorTag) { this.options.tabsActivatorTag = this.defaultOptions.tabsActivatorTag; }
+    if (!this.options.tabsTabTag) { this.options.tabsTabTag = this.defaultOptions.tabsTabTag; }
     
     if (!this.options.closeOtherTabs) { this.options.closeOtherTabs = this.defaultOptions.closeOtherTabs; }
     
@@ -42,7 +42,7 @@ var stormTabs = {
   
   addIdentifiers: function() {
     var container;
-    var containers = StormJS.getElementsByAttribute(this.options.containerElement, this.options.containerDataTag);
+    var containers = StormJS.getElementsByAttribute(this.options.containerElement, this.options.tabsContainerTag);
     
     for (var i = 0; i < containers.length; i++) {
       container = containers[i];
@@ -54,16 +54,16 @@ var stormTabs = {
   doActivators: function() {
     // activator stuffs
     var activator;
-    var activators = StormJS.getElementsByAttribute(this.options.activatorElement, this.options.activatorDataTag);
+    var activators = StormJS.getElementsByAttribute(this.options.activatorElement, this.options.tabsActivatorTag);
     for (var i = 0; i < activators.length; i++) {
       activator = activators[i];
       activator.addEventListener("click", function(event) {
-        stormTabs.doTabs(event.target);
+        StormJS.Tabs.doTabs(event.target);
       });
     }
   },
   
-  doTabs: function(target) {
+  doTabs: function(target) {    
     var targetContainerClass = target.parentNode.parentNode.classList[0];
     
     //var targetParentClass  = target.
@@ -72,7 +72,7 @@ var stormTabs = {
     var parentNode;
     
     for (var i = 0; i < targetAttributes.length; i++) {
-      if (targetAttributes[i].name == this.options.activatorDataTag) {
+      if (targetAttributes[i].name == this.options.tabsActivatorTag) {
         activatorValue = targetAttributes[i].value;
       }
     }
@@ -81,7 +81,7 @@ var stormTabs = {
     var parent
     var tabAttributes;
     var tab;
-    var tabs = StormJS.getElementsByAttribute(this.options.tabElement, this.options.tabDataTag);
+    var tabs = StormJS.getElementsByAttribute(this.options.tabElement, this.options.tabsTabTag);
     for (var j = 0; j < tabs.length; j++) {
       tab = tabs[j];
       
@@ -106,6 +106,12 @@ var stormTabs = {
   }
 };
 
-if (StormJS) {
-  StormJS.Tabs = stormTabs;
+if (StormJS != "undefined") { 
+  StormJS.Tabs = stormTabs; 
+} else {
+  StormJS = {
+    Tabs: stormTabs,
+    getElementAttributes: null,
+    getElementsByAttribute: null
+  };
 }

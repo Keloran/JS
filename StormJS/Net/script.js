@@ -75,7 +75,7 @@ var stormNet = {
     this.request = new XMLHttpRequest();
     try {
       var loader = this;
-      if (typeof stormNet !== "undefined") {
+      if (typeof StormJS.Net !== "undefined") {
         this.request.onreadystatechange = function(result) {
           if (result.srcElement) {
             loader.readyState = result.srcElement.readyState;
@@ -98,14 +98,14 @@ var stormNet = {
         loader.request.send(loader.options.params);
       }
     } catch (error) {
-      stormNet.options.onError(error);
+      StormJS.Net.options.onError(error);
     }
   },
   
   onReadyState: function(loader) {
     var request  = loader.request;
     var ready    = loader.readyState;
-    if (ready == stormNet.READY_STATE_COMPLETE) {
+    if (ready == StormJS.Net.READY_STATE_COMPLETE) {
       var httpStatus = request.status;
       if ((httpStatus === 200) || (httpStatus === 0)) {
         if (httpStatus === 200) {
@@ -122,12 +122,16 @@ var stormNet = {
   },
   
   defaultError: function(response) {
-    console.log("ReadyState", stormNet.request.readyState);
-    console.log("Status", stormNet.request.status);
-    console.log("Headers", stormNet.request.getAllResponseHeaders());
+    console.log("ReadyState", StormJS.Net.request.readyState);
+    console.log("Status", StormJS.Net.request.status);
+    console.log("Headers", StormJS.Net.request.getAllResponseHeaders());
   }
 };
 
-if (StormJS) {
-  StormJS.Net = stormNet;
+if (StormJS != "undefined") { 
+  StormJS.Net = stormNet; 
+} else {
+  StormJS = {
+    Net: stormNet
+  };
 }

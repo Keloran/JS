@@ -12,8 +12,10 @@ var stormPredict = {
     requestType: "GET",
     predictResult: "predictResult",
     highlightSelect: "highlightItem",
-    dataTag: "data-search-result",
-    dataTagResult: "data-search-result-value"
+    
+    predictInputTag: "data-search-input",
+    predictResultTag: "data-search-result",
+    predictResultListTag: "data-search-result-value"
   },
   options: {},
   
@@ -27,8 +29,10 @@ var stormPredict = {
     if (!this.options.requestType) { this.options.requestType = this.defaultOptions.requestType; }
     if (!this.options.predictResult) { this.options.predictResult = this.defaultOptions.predictResult; }
     if (!this.options.highlightSelect) { this.options.highlightSelect = this.defaultOptions.highlightSelect; }
-    if (!this.options.dataTag) { this.options.dataTag = this.defaultOptions.dataTag; }
-    if (!this.options.dataTagResult) { this.options.dataTagResult = this.defaultOptions.dataTagResult; }
+    
+    if (!this.options.predictInputTag) { this.options.predictInputTag = this.defaultOptions.predictInputTag; }
+    if (!this.options.predictResultTag) { this.options.predictResultTag = this.defaultOptions.predictResultTag; }
+    if (!this.options.predictResultListTag) { this.options.predictResultListTag = this.defaultOptions.predictResultListTag; }
     
     this.search();
   },
@@ -43,10 +47,8 @@ var stormPredict = {
     var item;
     var itemAttributes;
     var attrib;
-    var highlightValue = this.highlightIncrement;
-    if (isNaN(highlightValue)) { highlightValue = 1; }
     
-    var elems = StormJS.getElementsByAttribute("li", this.options.dataTag);    
+    var elems = StormJS.getElementsByAttribute("li", this.options.predictResultTag);    
     this.removeClasses(elems);
     
     // set to the first one
@@ -57,10 +59,11 @@ var stormPredict = {
     for (var j = 0; j < elems.length; j++) {
       item = elems[j];
       itemAttributes = StormJS.getElementAttributes(item);
+      
       for (var k = 0; k < itemAttributes.length; k++) {
         attrib = itemAttributes[k];        
         if (attrib.value == this.currentHighlight) {
-          item.classList.toggle(this.options.highlightSelect);
+          item.classList.add(StormJS.Predict.options.highlightSelect);
         }
       }
     }
@@ -69,10 +72,8 @@ var stormPredict = {
     var item;
     var itemAttributes;
     var attrib;
-    var highlightValue = this.highlightIncrement;
-    if (isNaN(highlightValue)) { highlightValue = 1; }
     
-    var elems = StormJS.getElementsByAttribute("li", this.options.dataTag);    
+    var elems = StormJS.getElementsByAttribute("li", this.options.predictResultTag);    
     this.removeClasses(elems);
     
     // set to the first one
@@ -86,46 +87,50 @@ var stormPredict = {
       for (var k = 0; k < itemAttributes.length; k++) {
         attrib = itemAttributes[k];        
         if (attrib.value == this.currentHighlight) {
-          item.classList.toggle(this.options.highlightSelect);
+          item.classList.add(StormJS.Predict.options.highlightSelect);
         }
       }
     }
   },
   
   addBoxEvent: function(element) {    
-    element.addEventListener("keyup", function(event) {  
+    element.addEventListener("keyup", function(event) {        
       // Chrome sensible
       if (event.keyIdentifier) {
         if (event.keyIdentifier == "Down") {
-          stormPredict.highlightNext();
+          StormJS.Predict.highlightNext();
         } else if (event.keyIdentifier == "Up") {
-          stormPredict.highlightPrevious();
+          StormJS.Predict.highlightPrevious();
         } else if (event.keyIdentifier == "Enter") {
-          stormPredict.gotoSearch();
+          if (StormJS.Predict.currentHighlight === 0) {
+            StormJS.Predict.gotoSearch();
+          } else {
+            StormJS.Predict.changeSearch();
+          }
         } else {       
           if (event.keyIdentifier.substring(0, 1) == "U") {
-            stormPredict.searchAjax();
+            StormJS.Predict.searchAjax();
           }
         }
       } else {
-        if ((event.key == "Down") || (event.key == "ArrowDown")) {          
-          stormPredict.highlightNext();
+        if ((event.key == "Down") || (event.key == "ArrowDown")) {       
+          StormJS.Predict.highlightNext();
         } else if ((event.key == "Up") || (event.key == "ArrowUp")) {          
-          stormPredict.highlightPrevious();       
+          StormJS.Predict.highlightPrevious();       
         } else if (event.key == "Enter") {
-          if (stormPredict.currentHighlight === 0) {
-            stormPredict.gotoSearch();
+          if (StormJS.Predict.currentHighlight === 0) {
+            StormJS.Predict.gotoSearch();
           } else {
-            stormPredict.changeSearch();
+            StormJS.Predict.changeSearch();
           }
         } else {
           if (event.shiftKey || event.altKey || event.ctrlKey) {
             if (event.key.length == 1) {
-              stormPredict.searchAjax();
+              StormJS.Predict.searchAjax();
             }
           } else {
             if (event.key.length == 1) {
-              stormPredict.searchAjax();
+              StormJS.Predict.searchAjax();
             }
           }
         }
@@ -137,32 +142,64 @@ var stormPredict = {
     element.addEventListener("mousedown", function(event) {
       var attributes = StormJS.getElementAttributes(element);
       for (var i = 0; i < attributes.length; i++) {
-        if (attributes[i].name == stormPredict.options.dataTagResult) {
-          changeSearch(attributes[i].value);
+        if (attributes[i].name == StormJS.Predict.options.predictResultListTag) {
+          StormJS.Predict.changeSearch(attributes[i].value);
+          var search = document.getElementById(StormJS.Predict.options.elementID);
+          search.focus();
         }
       }
     });
     element.addEventListener("mousemove", function(event) {
-      element.classList.add(stormPredict.options.highlightSelect);
+      element.classList.add(StormJS.Predict.options.highlightSelect);
     });
     element.addEventListener("mouseleave", function(event) {
-      element.classList.remove(stormPredict.options.highlightSelect);
+      element.classList.remove(StormJS.Predict.options.highlightSelect);
     });
   },
   
   search: function() {
-    var element = document.getElementById(this.options.elementID);
-    this.addBoxEvent(element);
+    var search = StormJS.getElementsByAttribute("input", this.options.predictInputTag)[0];
+    this.addBoxEvent(search);
   },
   
   gotoSearch: function() {
-    
+    var search = StormJS.getElementsByAttribute("input", this.options.predictInputTag)[0];
+    window.location = (this.options.searchURL + "?q=" + search.value);
   },
   
   changeSearch: function(value) {
+    var search = StormJS.getElementsByAttribute("input", this.options.predictInputTag)[0];
+    
     if (value) {
-      
+      search.value = value;
+    } else {
+      var attributes;
+      var attrib;
+      var elem;
+      var elems = StormJS.getElementsByAttribute("li", StormJS.Predict.options.predictResultTag);      
+      var bFound = false;
+      for (var i = 0; i < elems.length; i++) {
+        bFound     = false;
+        elem       = elems[i];
+        attributes = StormJS.getElementAttributes(elem);        
+        for (var j = 0; j < attributes.length; j++) {
+          attrib = attributes[j];
+          
+          if (parseInt(attrib.value) === StormJS.Predict.currentHighlight) { 
+            bFound = true; 
+          }
+          if (bFound) {
+            if (attrib.name === this.options.predictResultListTag) {
+              search.value = attrib.value;
+            }
+          }
+        }
+      }
     }
+    
+    search.focus();
+    StormJS.Predict.removeOldResults();
+    StormJS.Predict.currentHighlight = 0;
   },
   
   results: function(results) {   
@@ -172,7 +209,7 @@ var stormPredict = {
     if (!parsedResults) {
       console.log("Not JSON response");
     } else {
-      stormPredict.parseResults(parsedResults);
+      StormJS.Predict.parseResults(parsedResults);
     }
   },
   
@@ -189,8 +226,8 @@ var stormPredict = {
     // do the results
     for (var i = 0; i < results.length; i++) {
       var li = document.createElement("li");
-      li.setAttribute(this.options.dataTag, this.resultIncrement);
-      li.setAttribute(this.options.dataTagResult, results[i]);
+      li.setAttribute(this.options.predictResultTag, this.resultIncrement);
+      li.setAttribute(this.options.predictResultListTag, results[i]);
       var liContent = document.createTextNode(results[i]);
       li.appendChild(liContent);
       this.addItemEvent(li);
@@ -210,7 +247,7 @@ var stormPredict = {
   },
   
   searchAjax: function() {
-    var searchValue = document.getElementById(this.options.elementID).value;    
+    var searchValue = StormJS.getElementsByAttribute("input", this.options.predictInputTag)[0].value;
     this.removeOldResults();
     
     if (searchValue.length >= 3) {
@@ -228,6 +265,13 @@ var stormPredict = {
   }
 };
 
-if (StormJS) {
-  StormJS.Predict = stormPredict;
+if (StormJS != "undefined") { 
+  StormJS.Predict = stormPredict; 
+} else {
+  StormJS = {
+    Predict: stormPredict,
+    getElementsByAttribute: null,
+    getElementAttributes: null,
+    Net: null
+  };
 }

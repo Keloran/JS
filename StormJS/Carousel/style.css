@@ -1,0 +1,21 @@
+#carouselContainer {
+  overflow: hidden;
+  height: 290px;
+}
+.item {
+  float: left;
+  overflow: hidden;
+  margin: 5px;
+  padding: 1%;
+  text-align: center;
+  background: #CFCFCF;
+}
+
+.gridClass {
+  width: 1190px;
+  clear: both;
+}
+.scrollClass {
+  width: 9999px;
+  clear: both;
+}

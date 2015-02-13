@@ -13,16 +13,30 @@
     
     <script type="text/javascript" src="StormJS/Net/script.js"></script>
     
+    <link rel="stylesheet" href="StormJS/Carousel/style.css" />
+    <script type="text/javascript" src="StormJS/Carousel/script.js"></script>
+    
+    <style>
+      body {
+        width: 100%;
+        overflow: hidden;
+      }
+    </style>
+    
     <script>
       window.onload = function() {
         StormJS.Tabs.activate({
           tabHideClass: "tabs-hide",
           tabShowClass: "tabs-show"
         });
+        
         StormJS.ToolTip.activate();
+        
         StormJS.Predict.activate({
           searchURL: "/test.php"
         });
+        
+        StormJS.Carousel.activate();
       }      
     </script>
   </head>
@@ -62,7 +76,106 @@
     <a href="#" title="tooltip madness 5" data-tooltip>Hover Me</a><br />
     
     <hr />
-    <input type="text" id="search" placeholder="Search" />
+    <input type="text" id="search" placeholder="Search" data-search-input />
     
+    <hr />
+    <div id="carouselContainer" data-carousel-container>
+      <div class="item" itemscope="" itemtype="http://schema.org/Product" data-carousel-item>
+        <div class="sc-img" style="max-height: 200px; max-width: 200px; overflow: hidden">
+          <a href="http://api.ning.com/files/HQ4UqYkp3R0n9Y2pLknD*1OICq9l31HikB*PJ8rVVQ9VagOZpN-C837b0VGn-yOD2J2wLMhNiHOwBB1dgdMQX023LcBhDAcn/BobMarley.jpg" property="url" title="Previous 1 2 3 … 5 Next › Page"><img src="http://ts2.mm.bing.net/th?id=HN.607994076231827653&amp;pid=15.1" alt="Product"title="Previous 1 2 3 … 5 Next › Page" data-tooltip></a>
+        </div>
+        <div class="sc-data">
+          Bob Marley 1
+        </div>
+      </div>
+      <div class="item" itemscope="" itemtype="http://schema.org/Product" data-carousel-item>
+        <div class="sc-img" style="max-height: 200px; max-width: 200px; overflow: hidden">
+          <a href="http://api.ning.com/files/HQ4UqYkp3R0n9Y2pLknD*1OICq9l31HikB*PJ8rVVQ9VagOZpN-C837b0VGn-yOD2J2wLMhNiHOwBB1dgdMQX023LcBhDAcn/BobMarley.jpg" property="url" title="Previous 1 2 3 … 5 Next › Page"><img src="http://ts2.mm.bing.net/th?id=HN.607994076231827653&amp;pid=15.1" alt="Product" title="Previous 1 2 3 … 5 Next › Page" data-tooltip></a>
+        </div>
+        <div class="sc-data">
+          Bob Marley 2
+        </div>
+      </div>
+      <div class="item" itemscope="" itemtype="http://schema.org/Product" data-carousel-item>
+        <div class="sc-img" style="max-height: 200px; max-width: 200px; overflow: hidden">
+          <a href="http://api.ning.com/files/HQ4UqYkp3R0n9Y2pLknD*1OICq9l31HikB*PJ8rVVQ9VagOZpN-C837b0VGn-yOD2J2wLMhNiHOwBB1dgdMQX023LcBhDAcn/BobMarley.jpg" property="url" title="Previous 1 2 3 … 5 Next › Page"><img src="http://ts2.mm.bing.net/th?id=HN.607994076231827653&amp;pid=15.1" alt="Product" title="Previous 1 2 3 … 5 Next › Page" data-tooltip></a>
+        </div>
+        <div class="sc-data">
+          Bob Marley 3
+        </div>
+      </div>
+      <div class="item" itemscope="" itemtype="http://schema.org/Product" data-carousel-item>
+        <div class="sc-img" style="max-height: 200px; max-width: 200px; overflow: hidden">
+          <a href="http://api.ning.com/files/HQ4UqYkp3R0n9Y2pLknD*1OICq9l31HikB*PJ8rVVQ9VagOZpN-C837b0VGn-yOD2J2wLMhNiHOwBB1dgdMQX023LcBhDAcn/BobMarley.jpg" property="url" title="Previous 1 2 3 … 5 Next › Page"><img src="http://ts2.mm.bing.net/th?id=HN.607994076231827653&amp;pid=15.1" alt="Product" title="Previous 1 2 3 … 5 Next › Page" data-tooltip></a>
+        </div>
+        <div class="sc-data">
+          Bob Marley 4
+        </div>
+      </div>
+      <div class="item" itemscope="" itemtype="http://schema.org/Product" data-carousel-item>
+        <div class="sc-img" style="max-height: 200px; max-width: 200px; overflow: hidden">
+          <a href="http://api.ning.com/files/HQ4UqYkp3R0n9Y2pLknD*1OICq9l31HikB*PJ8rVVQ9VagOZpN-C837b0VGn-yOD2J2wLMhNiHOwBB1dgdMQX023LcBhDAcn/BobMarley.jpg" property="url" title="Previous 1 2 3 … 5 Next › Page"><img src="http://ts2.mm.bing.net/th?id=HN.607994076231827653&amp;pid=15.1" alt="Product" title="Previous 1 2 3 … 5 Next › Page" data-tooltip></a>
+        </div>
+        <div class="sc-data">
+          Bob Marley 5
+        </div>
+      </div>
+      <div class="item" itemscope="" itemtype="http://schema.org/Product" data-carousel-item>
+        <div class="sc-img" style="max-height: 200px; max-width: 200px; overflow: hidden">
+          <a href="http://api.ning.com/files/HQ4UqYkp3R0n9Y2pLknD*1OICq9l31HikB*PJ8rVVQ9VagOZpN-C837b0VGn-yOD2J2wLMhNiHOwBB1dgdMQX023LcBhDAcn/BobMarley.jpg" property="url" title="Previous 1 2 3 … 5 Next › Page"><img src="http://ts2.mm.bing.net/th?id=HN.607994076231827653&amp;pid=15.1" alt="Product" title="Previous 1 2 3 … 5 Next › Page" data-tooltip></a>
+        </div>
+        <div class="sc-data">
+          Bob Marley 6
+        </div>
+      </div>
+      <div class="item" itemscope="" itemtype="http://schema.org/Product" data-carousel-item>
+        <div class="sc-img" style="max-height: 200px; max-width: 200px; overflow: hidden">
+          <a href="http://api.ning.com/files/HQ4UqYkp3R0n9Y2pLknD*1OICq9l31HikB*PJ8rVVQ9VagOZpN-C837b0VGn-yOD2J2wLMhNiHOwBB1dgdMQX023LcBhDAcn/BobMarley.jpg" property="url" title="Previous 1 2 3 … 5 Next › Page"><img src="http://ts2.mm.bing.net/th?id=HN.607994076231827653&amp;pid=15.1" alt="Product" title="Previous 1 2 3 … 5 Next › Page" data-tooltip></a>
+        </div>
+        <div class="sc-data">
+          Bob Marley 7
+        </div>
+      </div>
+      <div class="item" itemscope="" itemtype="http://schema.org/Product" data-carousel-item>
+        <div class="sc-img" style="max-height: 200px; max-width: 200px; overflow: hidden">
+          <a href="http://api.ning.com/files/HQ4UqYkp3R0n9Y2pLknD*1OICq9l31HikB*PJ8rVVQ9VagOZpN-C837b0VGn-yOD2J2wLMhNiHOwBB1dgdMQX023LcBhDAcn/BobMarley.jpg" property="url" title="Previous 1 2 3 … 5 Next › Page"><img src="http://ts2.mm.bing.net/th?id=HN.607994076231827653&amp;pid=15.1" alt="Product" title="Previous 1 2 3 … 5 Next › Page" data-tooltip></a>
+        </div>
+        <div class="sc-data">
+          Bob Marley 8
+        </div>
+      </div>
+      <div class="item" itemscope="" itemtype="http://schema.org/Product" data-carousel-item>
+        <div class="sc-img" style="max-height: 200px; max-width: 200px; overflow: hidden">
+          <a href="http://api.ning.com/files/HQ4UqYkp3R0n9Y2pLknD*1OICq9l31HikB*PJ8rVVQ9VagOZpN-C837b0VGn-yOD2J2wLMhNiHOwBB1dgdMQX023LcBhDAcn/BobMarley.jpg" property="url" title="Previous 1 2 3 … 5 Next › Page"><img src="http://ts2.mm.bing.net/th?id=HN.607994076231827653&amp;pid=15.1" alt="Product" title="Previous 1 2 3 … 5 Next › Page" data-tooltip></a>
+        </div>
+        <div class="sc-data">
+          Bob Marley 8
+        </div>
+      </div>
+      <div class="item" itemscope="" itemtype="http://schema.org/Product" data-carousel-item>
+        <div class="sc-img" style="max-height: 200px; max-width: 200px; overflow: hidden">
+          <a href="http://api.ning.com/files/HQ4UqYkp3R0n9Y2pLknD*1OICq9l31HikB*PJ8rVVQ9VagOZpN-C837b0VGn-yOD2J2wLMhNiHOwBB1dgdMQX023LcBhDAcn/BobMarley.jpg" property="url" title="Previous 1 2 3 … 5 Next › Page"><img src="http://ts2.mm.bing.net/th?id=HN.607994076231827653&amp;pid=15.1" alt="Product" title="Previous 1 2 3 … 5 Next › Page" data-tooltip></a>
+        </div>
+        <div class="sc-data">
+          Bob Marley 10
+        </div>
+      </div>
+      <div class="item" itemscope="" itemtype="http://schema.org/Product" data-carousel-item>
+        <div class="sc-img" style="max-height: 200px; max-width: 200px; overflow: hidden">
+          <a href="http://api.ning.com/files/HQ4UqYkp3R0n9Y2pLknD*1OICq9l31HikB*PJ8rVVQ9VagOZpN-C837b0VGn-yOD2J2wLMhNiHOwBB1dgdMQX023LcBhDAcn/BobMarley.jpg" property="url" title="Previous 1 2 3 … 5 Next › Page"><img src="http://ts2.mm.bing.net/th?id=HN.607994076231827653&amp;pid=15.1" alt="Product" title="Previous 1 2 3 … 5 Next › Page" data-tooltip></a>
+        </div>
+        <div class="sc-data">
+          Bob Marley 11
+        </div>
+      </div>
+      <div class="item" itemscope="" itemtype="http://schema.org/Product" data-carousel-item>
+        <div class="sc-img" style="max-height: 200px; max-width: 200px; overflow: hidden">
+          <a href="http://api.ning.com/files/HQ4UqYkp3R0n9Y2pLknD*1OICq9l31HikB*PJ8rVVQ9VagOZpN-C837b0VGn-yOD2J2wLMhNiHOwBB1dgdMQX023LcBhDAcn/BobMarley.jpg" property="url" title="Previous 1 2 3 … 5 Next › Page"><img src="http://ts2.mm.bing.net/th?id=HN.607994076231827653&amp;pid=15.1" alt="Product" title="Previous 1 2 3 … 5 Next › Page" data-tooltip></a>
+        </div>
+        <div class="sc-data">
+          Bob Marley 12
+        </div>
+      </div>
+    </div>
   </body>
 </html>

@@ -34,11 +34,10 @@ var stormToolTip = {
   },
   
   createDiv: function() {
+    var div  = document.createElement("div");
+    div.id   = this.options.cssId;
+    
     var body = document.getElementsByTagName("body")[0];
-    
-    var div             = document.createElement("div");
-    div.id              = this.options.cssId;
-    
     body.appendChild(div);
   },
   
@@ -53,18 +52,20 @@ var stormToolTip = {
     }
     
     if (hoverElement) {
-      var title        = hoverElement.getAttribute("title");
-      var titleElem    = document.createTextNode(title);
+      var title        = hoverElement.getAttribute("title");      
+      if (title) {
+        var titleElem    = document.createTextNode(title);
 
-      var left      = ((0 + (title.length + 5) + event.clientX) + "px");
-      var top       = ((0 + 10 + event.clientY) + "px");
+        var left      = ((0 + (title.length + 5) + event.clientX) + "px");
+        var top       = ((0 + 10 + event.clientY) + "px");
 
-      toolTipDiv.style.setProperty("display", "block");
-      toolTipDiv.style.setProperty("left", left);
-      toolTipDiv.style.setProperty("top", top);
-      toolTipDiv.style.setProperty("position", "absolute");
+        toolTipDiv.style.setProperty("display", "block");
+        toolTipDiv.style.setProperty("left", left);
+        toolTipDiv.style.setProperty("top", top);
+        toolTipDiv.style.setProperty("position", "absolute");
 
-      toolTipDiv.appendChild(titleElem);
+        toolTipDiv.appendChild(titleElem);
+      }
     }
   },
   
@@ -73,6 +74,12 @@ var stormToolTip = {
   }
 };
 
-if (StormJS) {
-  StormJS.ToolTip = stormToolTip;
+if (StormJS != "undefined") { 
+  StormJS.ToolTip = stormToolTip; 
+} else {
+  StormJS = {
+    ToolTip: stormToolTip,
+    removeChildren: null,
+    getElementsByAttribute: null
+  };
 }
