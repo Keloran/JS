@@ -13,6 +13,13 @@
   background: #CFCFCF;
   width: 230px;
 }
+.scrollLeft, .scrollRight {
+  width: 25px;
+  height: 280px;
+  float: left;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
 
 .gridClass {
   width: 1190px;

@@ -8,9 +8,10 @@ if (!console) {
 }
 
 var StormJS = {  
-  getElementsByAttribute: function(nodeType, attributeName) {
+  getElementsByAttribute: function(nodeType, attributeName, container) {
     var returnElements = [];
     var i = 0;
+    var j = 0;
 
     var elementAttributes;
     var element;
@@ -23,7 +24,7 @@ var StormJS = {
 
     // get the elements
     var elements = document.getElementsByTagName(nodeType);
-    for (var j = 0; j < elements.length; j++) {
+    for (j = 0; j < elements.length; j++) {
       element            = elements[j];
 
       elementAttributes  = element.attributes;
@@ -33,6 +34,20 @@ var StormJS = {
           i++;
         }
       }
+    }
+    
+    if (container) {
+      var refinedElements = [];
+      i = 0;
+      
+      for (j = 0; j < returnElements.length; j++) {
+        if (returnElements[j].parentNode.id == container.id) {
+          refinedElements[i] = returnElements[j];
+          i++;
+        }
+      }
+      
+      returnElements = refinedElements;
     }
 
     return returnElements;
