@@ -1,6 +1,8 @@
 #carouselContainer {
   overflow: hidden;
   height: 290px;
+  float: left;
+  clear: both;
 }
 .item {
   float: left;
@@ -9,6 +11,7 @@
   padding: 1%;
   text-align: center;
   background: #CFCFCF;
+  width: 230px;
 }
 
 .gridClass {
