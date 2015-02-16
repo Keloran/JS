@@ -5,11 +5,17 @@ var stormPredict = {
   resultIncrement: 1,
   
   defaultOptions: {
+    listElement: "li",
+    listContainerElement: "ul",
+    
     element: "input",
-    elementType: "text",
+    elementType: "text",    
     elementID: "search",
+    
     searchURL: "/",
+    queryURL: "?q=",
     requestType: "GET",
+    
     predictResult: "predictResult",
     highlightSelect: "highlightItem",
     
@@ -22,11 +28,17 @@ var stormPredict = {
   activate: function(options) {
     if (options) { this.options = options; }
     
+    if (!this.options.listElement) { this.options.listElement = this.defaultOptions.listElement; }
+    if (!this.options.listContainerElement) { this.options.listContainerElement = this.defaultOptions.listContainerElement; }
+    
     if (!this.options.element) { this.options.element = this.defaultOptions.element; }
     if (!this.options.elementType) { this.options.elementType = this.defaultOptions.elementType; }
     if (!this.options.elementID) { this.options.elementID = this.defaultOptions.elementID; }
+    
     if (!this.options.searchURL) { this.options.searchURL = this.defaultOptions.searchURL; }
+    if (!this.options.queryURL) { this.options.queryURL = this.defaultOptions.queryURL; }    
     if (!this.options.requestType) { this.options.requestType = this.defaultOptions.requestType; }
+    
     if (!this.options.predictResult) { this.options.predictResult = this.defaultOptions.predictResult; }
     if (!this.options.highlightSelect) { this.options.highlightSelect = this.defaultOptions.highlightSelect; }
     
@@ -48,7 +60,7 @@ var stormPredict = {
     var itemAttributes;
     var attrib;
     
-    var elems = StormJS.getElementsByAttribute("li", this.options.predictResultTag);    
+    var elems = StormJS.getElementsByAttribute(this.options.listElement, this.options.predictResultTag);    
     this.removeClasses(elems);
     
     // set to the first one
@@ -73,7 +85,7 @@ var stormPredict = {
     var itemAttributes;
     var attrib;
     
-    var elems = StormJS.getElementsByAttribute("li", this.options.predictResultTag);    
+    var elems = StormJS.getElementsByAttribute(this.options.listElement, this.options.predictResultTag);    
     this.removeClasses(elems);
     
     // set to the first one
@@ -158,17 +170,17 @@ var stormPredict = {
   },
   
   search: function() {
-    var search = StormJS.getElementsByAttribute("input", this.options.predictInputTag)[0];
+    var search = StormJS.getElementsByAttribute(this.options.element, this.options.predictInputTag)[0];
     this.addBoxEvent(search);
   },
   
   gotoSearch: function() {
-    var search = StormJS.getElementsByAttribute("input", this.options.predictInputTag)[0];
-    window.location = (this.options.searchURL + "?q=" + search.value);
+    var search = StormJS.getElementsByAttribute(this.options.element, this.options.predictInputTag)[0];
+    window.location = (StormJS.Predict.options.searchURL + StormJS.Predict.options.queryURL + search.value);
   },
   
   changeSearch: function(value) {
-    var search = StormJS.getElementsByAttribute("input", this.options.predictInputTag)[0];
+    var search = StormJS.getElementsByAttribute(this.options.element, this.options.predictInputTag)[0];
     
     if (value) {
       search.value = value;
@@ -176,7 +188,7 @@ var stormPredict = {
       var attributes;
       var attrib;
       var elem;
-      var elems = StormJS.getElementsByAttribute("li", StormJS.Predict.options.predictResultTag);      
+      var elems = StormJS.getElementsByAttribute(StormJS.Predict.options.listElement, StormJS.Predict.options.predictResultTag);      
       var bFound = false;
       for (var i = 0; i < elems.length; i++) {
         bFound     = false;
@@ -189,7 +201,7 @@ var stormPredict = {
             bFound = true; 
           }
           if (bFound) {
-            if (attrib.name === this.options.predictResultListTag) {
+            if (attrib.name === StormJS.Predict.options.predictResultListTag) {
               search.value = attrib.value;
             }
           }
@@ -217,7 +229,7 @@ var stormPredict = {
     var body       = document.getElementsByTagName("body")[0];
     var list       = document.getElementById(this.options.predictResult);
     if (!list) {
-      list       = document.createElement("ul");
+      list       = document.createElement(this.options.listContainerElement);
       list.id    = this.options.predictResult;
     }
     
@@ -225,7 +237,7 @@ var stormPredict = {
     
     // do the results
     for (var i = 0; i < results.length; i++) {
-      var li = document.createElement("li");
+      var li = document.createElement(this.options.listElement);
       li.setAttribute(this.options.predictResultTag, this.resultIncrement);
       li.setAttribute(this.options.predictResultListTag, results[i]);
       var liContent = document.createTextNode(results[i]);
@@ -247,18 +259,18 @@ var stormPredict = {
   },
   
   searchAjax: function() {
-    var searchValue = StormJS.getElementsByAttribute("input", this.options.predictInputTag)[0].value;
-    this.removeOldResults();
+    var searchValue = StormJS.getElementsByAttribute(StormJS.Predict.options.element, StormJS.Predict.options.predictInputTag)[0].value;
+    StormJS.Predict.removeOldResults();
     
     if (searchValue.length >= 3) {
       if (StormJS.Net) {
         StormJS.Net.contentLoader({
-          url: this.options.searchURL,
+          url: StormJS.Predict.options.searchURL,
           onLoad: stormPredict.results,
           params: {
             q: searchValue
           },
-          requestMethod: "GET"
+          requestMethod: StormJS.Predict.options.requestType
         });
       }
     }
