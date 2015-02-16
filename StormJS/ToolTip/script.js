@@ -21,7 +21,7 @@ var stormToolTip = {
   
   addActivators: function() {
     var element;
-    var elements = StormJS.getElementsByAttribute("*", this.options.dataTag);
+    var elements = StormJS.getElementsByAttribute(this.options.dataTag);
     for (var i = 0; i < elements.length; i++) {
       element = elements[i];
       element.addEventListener("mouseover", function(event) { StormJS.ToolTip.doToolTip(event); });

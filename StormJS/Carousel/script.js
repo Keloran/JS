@@ -49,11 +49,11 @@ var stormCarousel = {
   createCarousel: function() {
     var carouselArray = [];
     
-    var items      = StormJS.getElementsByAttribute("*", this.options.carouselItemTag);
+    var items      = StormJS.getElementsByAttribute(this.options.carouselItemTag);
     var item;
     var itemIncrement;
     
-    var containers = StormJS.getElementsByAttribute("*", this.options.carouselContainerTag);
+    var containers = StormJS.getElementsByAttribute(this.options.carouselContainerTag);
     var container;
     for (var i = 0; i < containers.length; i++) {
       container = containers[i];

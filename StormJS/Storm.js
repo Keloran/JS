@@ -14,7 +14,14 @@ var StormJS = {
 
     var elementAttributes;
     var element;
+    
+    // Only specified the attribute
+    if (!attributeName) {
+      attributeName = nodeType;
+      nodeType = "*";
+    }
 
+    // get the elements
     var elements = document.getElementsByTagName(nodeType);
     for (var j = 0; j < elements.length; j++) {
       element            = elements[j];
