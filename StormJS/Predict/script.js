@@ -119,7 +119,7 @@ var stormPredict = {
       } else if (StormJS.doKeyEvent(event, "ArrowUp")) {
         StormJS.Predict.highlightPrevious();
       } else if (StormJS.doKeyEvent(event, "Enter")) {
-        if (StromJS.Predict.currentHighlight === 0) {
+        if (StormJS.Predict.currentHighlight === 0) {
           StormJS.Predict.gotoSearch();
         } else {
           StormJS.Predict.changeSearch();
