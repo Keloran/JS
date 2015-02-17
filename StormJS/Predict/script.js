@@ -138,49 +138,6 @@ var stormPredict = {
           StormJS.Predict.searchAjax();
         }
       }
-      
-      /*
-      // Chrome sensible
-      if (event.keyIdentifier) {
-        if (event.keyIdentifier == "Down") {
-          StormJS.Predict.highlightNext();
-        } else if (event.keyIdentifier == "Up") {
-          StormJS.Predict.highlightPrevious();
-        } else if (event.keyIdentifier == "Enter") {
-          if (StormJS.Predict.currentHighlight === 0) {
-            StormJS.Predict.gotoSearch();
-          } else {
-            StormJS.Predict.changeSearch();
-          }
-        } else {       
-          if (event.keyIdentifier.substring(0, 1) == "U") {
-            StormJS.Predict.searchAjax();
-          }
-        }
-      } else {
-        if ((event.key == "Down") || (event.key == "ArrowDown")) {       
-          StormJS.Predict.highlightNext();
-        } else if ((event.key == "Up") || (event.key == "ArrowUp")) {          
-          StormJS.Predict.highlightPrevious();       
-        } else if (event.key == "Enter") {
-          if (StormJS.Predict.currentHighlight === 0) {
-            StormJS.Predict.gotoSearch();
-          } else {
-            StormJS.Predict.changeSearch();
-          }
-        } else {
-          if (event.shiftKey || event.altKey || event.ctrlKey) {
-            if (event.key.length == 1) {
-              StormJS.Predict.searchAjax();
-            }
-          } else {
-            if (event.key.length == 1) {
-              StormJS.Predict.searchAjax();
-            }
-          }
-        }
-      }
-      */
     });
   },
   
