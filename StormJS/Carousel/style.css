@@ -1,8 +1,10 @@
-#carouselContainer {
+.carouselContainer {
   overflow: hidden;
   height: 290px;
   float: left;
   clear: both;
+  white-space: nowrap;
+  overflow-x: scroll;
 }
 .item {
   float: left;
@@ -22,10 +24,5 @@
 }
 
 .gridClass {
-  width: 1190px;
-  clear: both;
-}
-.scrollClass {
-  width: 9999px;
   clear: both;
 }

@@ -20,6 +20,7 @@ var stormPredict = {
     highlightSelect: "highlightItem",
     
     predictInputTag: "data-search-input",
+    predictResultContainer: "data-search-results",
     predictResultTag: "data-search-result",
     predictResultListTag: "data-search-result-value"
   },
@@ -43,6 +44,7 @@ var stormPredict = {
     if (!this.options.highlightSelect) { this.options.highlightSelect = this.defaultOptions.highlightSelect; }
     
     if (!this.options.predictInputTag) { this.options.predictInputTag = this.defaultOptions.predictInputTag; }
+    if (!this.options.predictResultContainer) { this.options.predictResultContainer = this.defaultOptions.predictResultContainer; }    
     if (!this.options.predictResultTag) { this.options.predictResultTag = this.defaultOptions.predictResultTag; }
     if (!this.options.predictResultListTag) { this.options.predictResultListTag = this.defaultOptions.predictResultListTag; }
     
@@ -107,6 +109,37 @@ var stormPredict = {
   
   addBoxEvent: function(element) {    
     element.addEventListener("keyup", function(event) {        
+      // Down
+      if (StormJS.doKeyEvent(event, "Down")) { 
+        StormJS.Predict.highlightNext(); 
+      } else if (StormJS.doKeyEvent(event, "ArrowDown")) {
+        StormJS.Predict.highlightNext();
+      } else if (StormJS.doKeyEvent(event, "Up")) {
+        StormJS.Predict.highlightPrevious();
+      } else if (StormJS.doKeyEvent(event, "ArrowUp")) {
+        StormJS.Predict.highlightPrevious();
+      } else if (StormJS.doKeyEvent(event, "Enter")) {
+        if (StromJS.Predict.currentHighlight === 0) {
+          StormJS.Predict.gotoSearch();
+        } else {
+          StormJS.Predict.changeSearch();
+        }
+      } else {
+        if (StormJS.doKeyEvent(event, "Shift")) {
+        } else if (StormJS.doKeyEvent(event, "Control")) {
+        } else if (StormJS.doKeyEvent(event, "Alt")) {
+        } else if (StormJS.doKeyEvent(event, "OS")) {
+        } else if (StormJS.doKeyEvent(event, "Meta")) {
+        } else if (StormJS.doKeyEvent(event, "Left")) {
+        } else if (StormJS.doKeyEvent(event, "ArrowLeft")) {
+        } else if (StormJS.doKeyEvent(event, "Right")) {
+        } else if (StormJS.doKeyEvent(event, "ArrowRight")) {
+        } else {
+          StormJS.Predict.searchAjax();
+        }
+      }
+      
+      /*
       // Chrome sensible
       if (event.keyIdentifier) {
         if (event.keyIdentifier == "Down") {
@@ -147,6 +180,7 @@ var stormPredict = {
           }
         }
       }
+      */
     });
   },
   
@@ -170,8 +204,12 @@ var stormPredict = {
   },
   
   search: function() {
-    var search = StormJS.getElementsByAttribute(this.options.element, this.options.predictInputTag)[0];
-    this.addBoxEvent(search);
+    var search;
+    var searches = StormJS.getElementsByAttribute(this.options.element, this.options.predictInputTag);
+    for (var i = 0; i < searches.length; i++) {
+      search = searches[i];
+      this.addBoxEvent(search);
+    }
   },
   
   gotoSearch: function() {
@@ -250,7 +288,14 @@ var stormPredict = {
     this.maxHighlight = i;
     
     list.style.setProperty("display", "block");
-    body.appendChild(list);
+    
+    // Results
+    var resultsContainer = StormJS.getElementsByAttribute(this.options.predictResultContainer);
+    if (resultsContainer.length >= 1) {
+      resultsContainer[0].appendChild(list);
+    } else {
+      body.appendChild(list);
+    }
   },
   
   removeOldResults: function() {

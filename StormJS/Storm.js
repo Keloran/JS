@@ -5,9 +5,24 @@ if (!console) {
     info: function() {},
     error: function() {}
   };
+  
 }
 
 var StormJS = {  
+  doKeyEvent: function(event, key) {
+    if (event.keyIdentifier) {
+      if (event.keyIdentifier == key) {
+        return true;
+      }
+    } else if (event.key) {
+      if (event.key == key) {
+        return true;
+      }
+    }
+    
+    return false;
+  },  
+  
   getElementsByAttribute: function(nodeType, attributeName, container) {
     var returnElements = [];
     var i = 0;
@@ -45,7 +60,7 @@ var StormJS = {
           refinedElements[i] = returnElements[j];
           i++;
         }
-      }
+      };
       
       returnElements = refinedElements;
     }
